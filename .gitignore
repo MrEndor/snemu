@@ -1,0 +1,57 @@
+# Build trees (CMakePresets: build/debug, build/release, build/asan)
+build/
+cmake-build-*/
+
+# CMake artefacts dropped into source tree by mistake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+Testing/
+CTestTestfile.cmake
+compile_commands.json
+
+# FetchContent / ExternalProject caches living outside build
+_deps/
+dpdk-install/
+
+# IDE / editor
+.vscode/
+.vs/
+*.swp
+*.swo
+*.idea
+*~
+
+# Compiler / debugger artefacts
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.gcda
+*.gcno
+*.gcov
+*.profraw
+*.profdata
+core.*
+vgcore.*
+
+# Sanitizer / fuzz output
+asan.log.*
+ubsan.log.*
+*.afl/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Editor backups / OS crumbs
+.DS_Store
+Thumbs.db

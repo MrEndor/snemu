@@ -1,0 +1,79 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {"major": 3, "minor": 25, "patch": 0},
+  "configurePresets": [
+    {
+      "name": "_base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"}
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug (compile_commands.json)",
+      "inherits": "_base",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Debug"}
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "inherits": "_base",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Release"}
+    },
+    {
+      "name": "asan",
+      "displayName": "Debug + ASAN/UBSAN",
+      "inherits": "_base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "SNEMU_ASAN":  "ON",
+        "SNEMU_UBSAN": "ON"
+      }
+    },
+    {
+      "name": "debug-dpdk",
+      "displayName": "Debug + bootstrapped DPDK (driver SDK)",
+      "inherits": "debug",
+      "cacheVariables": {"SNEMU_BOOTSTRAP_DPDK": "ON"}
+    }
+  ],
+  "buildPresets": [
+    {"name": "debug",      "configurePreset": "debug"},
+    {"name": "release",    "configurePreset": "release"},
+    {"name": "asan",       "configurePreset": "asan"},
+    {"name": "debug-dpdk", "configurePreset": "debug-dpdk"}
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output":    {"outputOnFailure": true, "verbosity": "verbose"},
+      "execution": {"stopOnFailure": true, "noTestsAction": "error"}
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "output":    {"outputOnFailure": true, "verbosity": "verbose"},
+      "execution": {"stopOnFailure": true, "noTestsAction": "error"}
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "test",
+      "steps": [
+        {"type": "configure", "name": "debug"},
+        {"type": "build",     "name": "debug"},
+        {"type": "test",      "name": "debug"}
+      ]
+    },
+    {
+      "name": "test-asan",
+      "steps": [
+        {"type": "configure", "name": "asan"},
+        {"type": "build",     "name": "asan"},
+        {"type": "test",      "name": "asan"}
+      ]
+    }
+  ]
+}

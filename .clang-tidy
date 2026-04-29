@@ -1,0 +1,63 @@
+---
+
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  misc-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-casting-through-void,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-reserved-identifier,
+  -cert-dcl37-c,
+  -cert-dcl51-cpp,
+  -cert-err33-c,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -misc-include-cleaner,
+  -misc-no-recursion,
+  -portability-avoid-pragma-once,
+  -readability-function-cognitive-complexity
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*/(include|src)/.*\.h$'
+FormatStyle: file
+
+CheckOptions:
+  - key:   readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key:   readability-identifier-naming.VariableCase
+    value: lower_case
+  - key:   readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key:   readability-identifier-naming.StructCase
+    value: lower_case
+  - key:   readability-identifier-naming.UnionCase
+    value: lower_case
+  - key:   readability-identifier-naming.EnumCase
+    value: lower_case
+  - key:   readability-identifier-naming.TypedefCase
+    value: lower_case
+  - key:   readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
+  - key:   readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+  - key:   readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+  - key:   readability-function-size.LineThreshold
+    value: '80'
+  - key:   bugprone-sizeof-expression.WarnOnSizeOfPointerToAggregate
+    value: '1'
+  - key:   performance-for-range-copy.WarnOnAllAutoCopies
+    value: '1'
+  - key:   readability-identifier-length.MinimumVariableNameLength
+    value: '2'
+  - key:   readability-identifier-length.MinimumParameterNameLength
+    value: '2'
+  - key:   readability-identifier-length.MinimumLoopCounterNameLength
+    value: '1'
+  - key:   readability-identifier-length.IgnoredLoopCounterNames
+    value: '^[ijkgb_]$'
