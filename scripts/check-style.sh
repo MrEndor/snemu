@@ -31,10 +31,10 @@ else
   clang-format --dry-run --Werror "${c_sources[@]}"
 fi
 
-build_dir="${SNEMU_BUILD_DIR:-build/debug-dpdk}"
+build_dir="${SNEMU_BUILD_DIR:-build/debug}"
 if [[ ! -f "$build_dir/compile_commands.json" ]]; then
   echo "check-style: $build_dir/compile_commands.json missing" >&2
-  echo "             run 'cmake --preset debug-dpdk' first," >&2
+  echo "             run 'cmake --preset debug' first," >&2
   echo "             or set SNEMU_BUILD_DIR to another build tree" >&2
   exit 1
 fi

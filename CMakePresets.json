@@ -7,11 +7,14 @@
       "hidden": true,
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": {"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"}
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "SNEMU_BOOTSTRAP_DPDK": "ON"
+      }
     },
     {
       "name": "debug",
-      "displayName": "Debug (compile_commands.json)",
+      "displayName": "Debug",
       "inherits": "_base",
       "cacheVariables": {"CMAKE_BUILD_TYPE": "Debug"}
     },
@@ -30,19 +33,12 @@
         "SNEMU_ASAN":  "ON",
         "SNEMU_UBSAN": "ON"
       }
-    },
-    {
-      "name": "debug-dpdk",
-      "displayName": "Debug + bootstrapped DPDK (driver SDK)",
-      "inherits": "debug",
-      "cacheVariables": {"SNEMU_BOOTSTRAP_DPDK": "ON"}
     }
   ],
   "buildPresets": [
-    {"name": "debug",      "configurePreset": "debug"},
-    {"name": "release",    "configurePreset": "release"},
-    {"name": "asan",       "configurePreset": "asan"},
-    {"name": "debug-dpdk", "configurePreset": "debug-dpdk"}
+    {"name": "debug",   "configurePreset": "debug"},
+    {"name": "release", "configurePreset": "release"},
+    {"name": "asan",    "configurePreset": "asan"}
   ],
   "testPresets": [
     {
