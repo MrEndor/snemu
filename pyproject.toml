@@ -6,6 +6,7 @@ requires-python = ">=3.10"
 dependencies = [
     "clang-format==22.1.4",
     "clang-tidy==22.1.0.1",
+    "pyelftools>=0.32",
 ]
 
 [tool.uv]
