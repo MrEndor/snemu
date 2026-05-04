@@ -125,10 +125,9 @@ TEST(MacFilter, AllmulticastPassesAnyMulticast) {
 TEST(MacFilter, McListRejectsOversize) {
   snemu_port port = make_port();
   std::array<rte_ether_addr, 1> list{kMulticast};
-  EXPECT_EQ(-EINVAL,
-            feat_mac_filter_set_mc_list(&port,
-                                        list.data(),
-                                        SNEMU_MAX_MC_MACS + 1));
+  EXPECT_EQ(
+    -EINVAL,
+    feat_mac_filter_set_mc_list(&port, list.data(), SNEMU_MAX_MC_MACS + 1));
 }
 
 TEST(MacFilter, McListEmptyClears) {

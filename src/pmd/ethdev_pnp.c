@@ -30,11 +30,11 @@ static int snemu_probe(struct rte_vdev_device* vdev) {
     return -ENOMEM;
   }
 
-  struct rte_ether_addr* mac_addrs = rte_zmalloc_socket(
-    "snemu_macs",
-    sizeof(struct rte_ether_addr) * SNEMU_MAX_UC_MACS,
-    0,
-    vdev->device.numa_node);
+  struct rte_ether_addr* mac_addrs =
+    rte_zmalloc_socket("snemu_macs",
+                       sizeof(struct rte_ether_addr) * SNEMU_MAX_UC_MACS,
+                       0,
+                       vdev->device.numa_node);
   if (mac_addrs == nullptr) {
     rte_free(port);
     rte_eth_dev_release_port(eth_dev);
