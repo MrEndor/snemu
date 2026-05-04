@@ -1,16 +1,3 @@
-# Builds the DPDK submodule at third_party/dpdk with -Denable_driver_sdk=true
-# so out-of-tree PMDs can include bus_vdev_driver.h / ethdev_driver.h.
-#
-# Runs at configure time via execute_process. A pure ExternalProject_Add
-# approach would defer the install to build phase, but then
-# pkg_check_modules(libdpdk) in FindDPDK.cmake would have nothing to find on
-# the first configure — forcing either manual IMPORTED-target plumbing for
-# ~100 DPDK libraries or a two-phase configure UX. Kept inline; idempotent
-# via the sentinel header below.
-#
-# Activated by include(BootstrapDpdk) from the top-level CMakeLists.txt,
-# gated by -DSNEMU_BOOTSTRAP_DPDK=ON.
-
 include_guard(GLOBAL)
 
 set(SNEMU_DPDK_SOURCE_DIR
