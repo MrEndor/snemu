@@ -1,0 +1,64 @@
+name: ci
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build-test:
+    name: build + ctest (debug)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
+        with:
+          just-version: '1.49.0'
+
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+
+      - name: Install lint tools (clang-format, clang-tidy via uv)
+        run: |
+          uv sync --frozen
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Install build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build meson python3-pyelftools \
+            libnuma-dev pkg-config
+
+      - name: Compute DPDK submodule SHA
+        id: dpdk-sha
+        run: echo "sha=$(just dpdk-sha)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache DPDK install tree
+        uses: actions/cache@v4
+        with:
+          path: dpdk-install
+          key: dpdk-${{ runner.os }}-${{ steps.dpdk-sha.outputs.sha }}-${{ hashFiles('cmake/BootstrapDpdk.cmake') }}
+
+      - name: clang-format
+        run: just fmt-check
+
+      - name: Configure debug (compile_commands.json + DPDK bootstrap)
+        run: just configure debug
+
+      - name: clang-tidy
+        run: just lint
+
+      - name: Build + test
+        run: |
+          just build debug
+          just test debug
